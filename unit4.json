@@ -914,5 +914,125 @@
   {
     "question": "Paradižnik, zelena solata, bučna pita so dobri za želodec in moje oči.",
     "answer": "Tomato, lettuce, pumpkin pie, are good for stomach and my eye."
+  },
+  {
+    "question": "Za zajtrk jem kruh, maslo in marmelado.",
+    "answer": "I eat bread, butter and jam for breakfast."
+  },
+  {
+    "question": "Za zajtrk pijemo mleko ali kakav.",
+    "answer": "We drink milk or cocoa for breakfast."
+  },
+  {
+    "question": "Za kosilo jem juho, piščanca, krompir in solato.",
+    "answer": "I eat soup, chicken, potatoes and salad for lunch."
+  },
+  {
+    "question": "Za večerjo jemo palačinke ali pa sendviče in pijemo čaj.",
+    "answer": "We eat pancakes or sandwiches and drink tea for dinner."
+  },
+  {
+    "question": "Moj najljubši poobedek je čokoladna torta ali jabolčna pita.",
+    "answer": "My favorite dessert is chocolate cake or apple pie."
+  },
+  {
+    "question": "Ljubim muffine in palačinke z malinovo marmelado.",
+    "answer": "I love muffins and pancakes with raspberry jam."
+  },
+  {
+    "question": "Ne maram pomfrita in graha.",
+    "answer": "I don't like chips and peas."
+  },
+  {
+    "question": "Jaz dodam čokolado na palačinke.",
+    "answer": "I add chocolate to my pancakes."
+  },
+  {
+    "question": "Ti olupiš jabolko.",
+    "answer": "You peel an apple."
+  },
+  {
+    "question": "Mi poskusimo juho.",
+    "answer": "We taste soup."
+  },
+  {
+    "question": "Ona pomije skodelice.",
+    "answer": "She washes cups."
+  },
+  {
+    "question": "Jaz namažem maslo na kruh.",
+    "answer": "I spread butter on bread."
+  },
+  {
+    "question": "Oni nalijejo sok v kozarec.",
+    "answer": "They pour juice in a glass."
+  },
+  {
+    "question": "Ti serviraš kosilo.",
+    "answer": "You serve lunch."
+  },
+  {
+    "question": "Midva nareževa kumaro.",
+    "answer": "We cut cucumber."
+  },
+  {
+    "question": "Ti kuhaš kosilo.",
+    "answer": "You cook lunch."
+  },
+  {
+    "question": "To je moja žlica.",
+    "answer": "This is my spoon."
+  },
+  {
+    "question": "To je moja skledica.",
+    "answer": "This is my bowl."
+  },
+  {
+    "question": "Moj kozarec je velik.",
+    "answer": "My glass is big."
+  },
+  {
+    "question": "Krožnik je bel.",
+    "answer": "The plate is white."
+  },
+  {
+    "question": "Ponev je vroča.",
+    "answer": "The pan is hot."
+  },
+  {
+    "question": "Posoda je majhna.",
+    "answer": "The dish is small."
+  },
+  {
+    "question": "Ne maram jajc, imam pa rad torte.",
+    "answer": "I don't like eggs but like cakes."
+  },
+  {
+    "question": "Ne maram rib, imam pa rada ananas.",
+    "answer": "I don't like fish but I like pineapple."
+  },
+  {
+    "question": "Hamburger ni dober zame.",
+    "answer": "Hamburger is not good for me."
+  },
+  {
+    "question": "Solata je dobra za moje telo.",
+    "answer": "Salad is good for my body."
+  },
+  {
+    "question": "Korenje je dobro za moje zobe.",
+    "answer": "Carrot is good for my teeth."
+  },
+  {
+    "question": "Jabolka so dobra za moje srce.",
+    "answer": "Apples are good for my heart."
+  },
+  {
+    "question": "Ponedeljek je moj najljubši dan.",
+    "answer": "Monday is my favorite day."
+  },
+  {
+    "question": "Petek je zelo kratek.",
+    "answer": "Friday is very short."
   }
 ]
