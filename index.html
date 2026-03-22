@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brihta-ANG</title>
-  <link rel="stylesheet" href="style.css?v=7.1">
+  <link rel="stylesheet" href="style.css?v=8.0">
 </head>
 <body>
   <div class="container">
@@ -14,7 +14,9 @@
 
       <!-- Always-visible top row -->
       <div class="toolbar-top">
-        <div class="brand"><img src="Brihta.svg" alt="Brihta" class="brand-logo"><span>Brihta</span></div>        <div class="toolbar-summary" id="toolbarSummary">
+        <div class="brand"><img src="Brihta.svg" alt="Brihta" class="brand-logo"><span>Brihta</span></div>
+        <div class="streak-badge" id="streakBadge" style="display:none" title="Dnevni niz"></div>
+        <div class="toolbar-summary" id="toolbarSummary">
           <span id="summaryDataset">—</span>
           <span class="summary-sep">·</span>
           <span id="summaryMode">—</span>
@@ -48,6 +50,7 @@
               <option value="flashcard">🃏 Kartice</option>
               <option value="quiz">🎯 Kviz</option>
               <option value="timed">⏱️ Tekma s časom</option>
+              <option value="matching">🧩 Spajanje</option>
               <option value="stats">📊 Napredek</option>
             </select>
           </div>
@@ -131,6 +134,13 @@
           </div>
         </div>
 
+        <!-- MATCHING PANEL -->
+        <div id="matchingPanel" class="matching-panel" style="display:none">
+          <div id="matchingArea" class="matching-area">
+            <div class="quiz-empty">Naloži nabor kartic in začni spajanje! 🧩</div>
+          </div>
+        </div>
+
         <!-- STATS PANEL -->
         <div id="statsPanel" class="stats-panel" style="display:none">
           <div id="statsArea" class="stats-area"></div>
@@ -140,7 +150,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=12"></script>
+  <script src="script.js?v=13"></script>
 
   <script>
     /* ── Toolbar collapse ── */
@@ -185,7 +195,7 @@
       // strip emoji from dataset name for brevity
       document.getElementById('summaryDataset').textContent = datasetText.replace(/^[^\w]*/, '');
 
-      const modeMap = { flashcard: '🃏 Kartice', quiz: '🎯 Kviz', timed: '⏱️ Tekma' };
+      const modeMap = { flashcard: '🃏 Kartice', quiz: '🎯 Kviz', timed: '⏱️ Tekma', matching: '🧩 Spajanje' };
       document.getElementById('summaryMode').textContent = modeMap[modeSel.value] || modeSel.value;
 
       const all = w && p && s;
