@@ -12,14 +12,130 @@ const DATASETS = [
   { id: "unit3",    subject: "anglescina", name: "Unit 3",      url: "unit3.json" },
   { id: "unit4",    subject: "anglescina", name: "Unit 4",      url: "unit4.json" },
 ];
-const SELECT_KEY  = "anki_dataset_id";
-const SUBJECT_KEY = "anki_subject_id";
-const SCORE_KEY   = "anki_quiz_score";
+const SELECT_KEY     = "anki_dataset_id";
+const SUBJECT_KEY    = "anki_subject_id";
+const SCORE_KEY      = "anki_quiz_score";
 const UNIT_STATS_KEY = "anki_unit_stats";
+const STREAK_DATE_KEY = "anki_last_date";
+const STREAK_COUNT_KEY = "anki_daily_streak";
+const STREAK_MAX_KEY  = "anki_max_streak";
+const ACHIEVEMENTS_KEY = "anki_achievements";
 
 function getUnitStats() {
   try { return JSON.parse(localStorage.getItem(UNIT_STATS_KEY) || '{}'); }
   catch { return {}; }
+}
+
+// ── Daily Streak ──────────────────────────────────────────────────────────────
+function todayString() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function getDailyStreak() {
+  return {
+    last:  localStorage.getItem(STREAK_DATE_KEY)  || null,
+    count: parseInt(localStorage.getItem(STREAK_COUNT_KEY) || '0'),
+    max:   parseInt(localStorage.getItem(STREAK_MAX_KEY)   || '0'),
+  };
+}
+
+function markDailyActivity() {
+  const today = todayString();
+  const { last, count, max } = getDailyStreak();
+  if (last === today) return;
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yStr = yesterday.toISOString().split('T')[0];
+
+  const newCount = (last === yStr) ? count + 1 : 1;
+  const newMax   = Math.max(max, newCount);
+
+  localStorage.setItem(STREAK_DATE_KEY,  today);
+  localStorage.setItem(STREAK_COUNT_KEY, newCount);
+  localStorage.setItem(STREAK_MAX_KEY,   newMax);
+}
+
+function renderStreakBadge() {
+  const badge = document.getElementById('streakBadge');
+  if (!badge) return;
+  const { count, max } = getDailyStreak();
+  if (count < 1) { badge.style.display = 'none'; return; }
+  const flames = count >= 7 ? '🔥🔥' : '🔥';
+  badge.innerHTML = `${flames}&thinsp;<span class="streak-num">${count}</span><span class="streak-label"> dni</span>`;
+  badge.title = `Dnevni niz: ${count} dan/dni zapored · Rekord: ${max}`;
+  badge.style.display = 'flex';
+}
+
+// ── Achievements ──────────────────────────────────────────────────────────────
+const ACHIEVEMENTS = [
+  { id: 'first_correct', name: 'Začetnik',         desc: 'Pravilno odgovoril prvič',         icon: '🌟' },
+  { id: 'streak_5',      name: 'Na krilih',         desc: '5× niz zapored v kvizu',           icon: '⚡' },
+  { id: 'streak_10',     name: 'Neustavljiv',        desc: '10× niz zapored v kvizu',          icon: '🔥' },
+  { id: 'daily_3',       name: 'Navada',             desc: '3 dni zapored',                    icon: '📅' },
+  { id: 'daily_7',       name: 'Tedenska rutina',    desc: '7 dni zapored',                    icon: '🗓️' },
+  { id: 'daily_30',      name: 'Zvest učenec',       desc: '30 dni zapored',                   icon: '💎' },
+  { id: 'answers_50',    name: 'Marljiv vrtnar',     desc: '50 pravilnih odgovorov skupaj',    icon: '📚' },
+  { id: 'answers_100',   name: 'Mojster besed',      desc: '100 pravilnih odgovorov skupaj',   icon: '🎓' },
+  { id: 'gold_rank',     name: 'Prvak',              desc: 'Dosegel zlato medaljo v kvizu',    icon: '🏆' },
+  { id: 'matching_win',  name: 'Spomin slona',       desc: 'Dokončal igro spajanja',           icon: '🧩' },
+  { id: 'perfect_match', name: 'Brezhibno',          desc: 'Spajanje dokončal brez napak',     icon: '✨' },
+  { id: 'timed_gold',    name: 'Zvezdni tekmovalec', desc: 'Prestal vse nivoje tekme s časom', icon: '⏱️' },
+];
+
+function getUnlockedAchievements() {
+  try { return JSON.parse(localStorage.getItem(ACHIEVEMENTS_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function unlockAchievement(id) {
+  const unlocked = getUnlockedAchievements();
+  if (unlocked.includes(id)) return false;
+  unlocked.push(id);
+  localStorage.setItem(ACHIEVEMENTS_KEY, JSON.stringify(unlocked));
+  const ach = ACHIEVEMENTS.find(a => a.id === id);
+  if (ach) showAchievementToast(ach);
+  return true;
+}
+
+function showAchievementToast(ach) {
+  const toast = document.createElement('div');
+  toast.className = 'achievement-toast';
+  toast.innerHTML = `
+    <div class="ach-icon">${ach.icon}</div>
+    <div class="ach-info">
+      <div class="ach-title">🏅 Dosežek odklenjen!</div>
+      <div class="ach-name">${ach.name}</div>
+      <div class="ach-desc">${ach.desc}</div>
+    </div>`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add('ach-show'), 50);
+  setTimeout(() => { toast.classList.remove('ach-show'); setTimeout(() => toast.remove(), 500); }, 3500);
+}
+
+function checkAchievements(ctx) {
+  ctx = ctx || {};
+  const stats = getUnitStats();
+  const totalCorrect = Object.values(stats._words || {})
+    .reduce((s, w) => s + (w.correct || 0), 0);
+  const unlocked = getUnlockedAchievements();
+
+  if (totalCorrect >= 1   && !unlocked.includes('first_correct')) unlockAchievement('first_correct');
+  if (totalCorrect >= 50  && !unlocked.includes('answers_50'))    unlockAchievement('answers_50');
+  if (totalCorrect >= 100 && !unlocked.includes('answers_100'))   unlockAchievement('answers_100');
+
+  if ((ctx.quizStreak || 0) >= 5  && !unlocked.includes('streak_5'))  unlockAchievement('streak_5');
+  if ((ctx.quizStreak || 0) >= 10 && !unlocked.includes('streak_10')) unlockAchievement('streak_10');
+
+  const dailyCount = parseInt(localStorage.getItem(STREAK_COUNT_KEY) || '0');
+  if (dailyCount >= 3  && !unlocked.includes('daily_3'))  unlockAchievement('daily_3');
+  if (dailyCount >= 7  && !unlocked.includes('daily_7'))  unlockAchievement('daily_7');
+  if (dailyCount >= 30 && !unlocked.includes('daily_30')) unlockAchievement('daily_30');
+
+  if ((ctx.score || 0) >= 350 && !unlocked.includes('gold_rank')) unlockAchievement('gold_rank');
+  if (ctx.matchingWin          && !unlocked.includes('matching_win'))  unlockAchievement('matching_win');
+  if (ctx.matchingPerfect      && !unlocked.includes('perfect_match')) unlockAchievement('perfect_match');
+  if (ctx.timedGold            && !unlocked.includes('timed_gold'))    unlockAchievement('timed_gold');
 }
 
 function recordWordStat(slovenian, unitId, isCorrect) {
@@ -519,6 +635,7 @@ class QuizApp {
     }
 
     updateScoreHUD(this.score, this.streak);
+    checkAchievements({ quizStreak: this.streak, score: this.score });
 
     // Rank-up check
     const newRank = getRank(this.score);
@@ -1035,6 +1152,7 @@ class TimedApp {
   showVictory() {
     SoundFX.rankUp();
     setTimeout(() => SoundFX.rankUp(), 600);
+    checkAchievements({ timedGold: true });
     this.removeOverlay();
     const div = document.createElement('div');
     div.className = 'timed-overlay';
@@ -1077,7 +1195,23 @@ function renderStatsPanel() {
   const unitKeys = Object.keys(stats).filter(k => k !== '_words');
 
   if (unitKeys.length === 0) {
-    area.innerHTML = `<div class="stats-empty">Še ni podatkov o napredku.<br><small>Igraj Kviz ali Tekmo s časom, da se napredek zabeleži.</small> 🎯</div>`;
+    const unlocked0 = getUnlockedAchievements();
+    const achHTML0 = `
+      <div class="stats-section-title">🏅 Dosežki (${unlocked0.length} / ${ACHIEVEMENTS.length})</div>
+      <div class="stats-achievements">
+        ${ACHIEVEMENTS.map(a => {
+          const done = unlocked0.includes(a.id);
+          return `<div class="stats-ach-item${done ? ' ach-done' : ''}">
+            <span class="stats-ach-icon">${done ? a.icon : '🔒'}</span>
+            <span class="stats-ach-name">${a.name}</span>
+            <span class="stats-ach-desc">${done ? a.desc : '???'}</span>
+          </div>`;
+        }).join('')}
+      </div>`;
+    area.innerHTML = `
+      <div class="stats-title">📊 Tvoj napredek</div>
+      <div class="stats-empty">Še ni podatkov o napredku.<br><small>Igraj Kviz ali Tekmo s časom, da se napredek zabeleži.</small> 🎯</div>
+      ${achHTML0}`;
     return;
   }
 
@@ -1124,11 +1258,27 @@ function renderStatsPanel() {
       </div>`;
   }
 
+  // Achievements section
+  const unlocked = getUnlockedAchievements();
+  const achHTML = `
+    <div class="stats-section-title">🏅 Dosežki (${unlocked.length} / ${ACHIEVEMENTS.length})</div>
+    <div class="stats-achievements">
+      ${ACHIEVEMENTS.map(a => {
+        const done = unlocked.includes(a.id);
+        return `<div class="stats-ach-item${done ? ' ach-done' : ''}">
+          <span class="stats-ach-icon">${done ? a.icon : '🔒'}</span>
+          <span class="stats-ach-name">${a.name}</span>
+          <span class="stats-ach-desc">${done ? a.desc : '???'}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
+
   area.innerHTML = `
     <div class="stats-title">📊 Tvoj napredek</div>
     <div class="stats-section-title">Točnost po enotah</div>
     <div class="stats-units">${unitRowsHTML}</div>
     ${weakHTML}
+    ${achHTML}
     <button class="stats-reset-btn" id="statsResetBtn">↺ Ponastavi statistiko</button>
   `;
 
@@ -1140,23 +1290,191 @@ function renderStatsPanel() {
   });
 }
 
+// ── Matching Game ─────────────────────────────────────────────────────────────
+class MatchingApp {
+  constructor(cards) {
+    this.selected      = null;
+    this.matched       = new Set();
+    this.flipping      = false;
+    this.attempts      = 0;
+    this.mistakes      = 0;
+    this.startTime     = null;
+    this.timerInterval = null;
+
+    // Pick up to 8 random pairs
+    const picked = shuffle([...cards]).slice(0, 8);
+    this.pairs = picked.map((c, i) => ({ id: i, slo: c.slovenian, eng: c.english }));
+    this.totalPairs = this.pairs.length;
+    this.render();
+  }
+
+  destroy() {
+    if (this.timerInterval) clearInterval(this.timerInterval);
+  }
+
+  startTimer() {
+    if (this.startTime !== null) return;
+    this.startTime = Date.now();
+    this.timerInterval = setInterval(() => this._tickTimer(), 1000);
+  }
+
+  _tickTimer() {
+    const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+    const m = Math.floor(elapsed / 60), s = elapsed % 60;
+    const el = document.getElementById('matchTimer');
+    if (el) el.textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  }
+
+  render() {
+    const area = document.getElementById('matchingArea');
+    if (!area) return;
+    if (!this.pairs.length) {
+      area.innerHTML = `<div class="quiz-empty">Ni kartic za spajanje 😕</div>`;
+      return;
+    }
+
+    // Build 16 tiles: one slo + one eng per pair, then shuffle
+    const tiles = [];
+    this.pairs.forEach(p => {
+      tiles.push({ pairId: p.id, lang: 'slo', text: p.slo });
+      tiles.push({ pairId: p.id, lang: 'eng', text: p.eng });
+    });
+    const shuffled = shuffle(tiles);
+
+    area.innerHTML = `
+      <div class="matching-header">
+        <div class="matching-stat">🧩 <span id="matchPairs">0</span> / ${this.totalPairs}</div>
+        <div class="matching-stat">⏱️ <span id="matchTimer">0:00</span></div>
+        <div class="matching-stat">❌ <span id="matchMistakes">0</span></div>
+      </div>
+      <div class="matching-hint">Spoji slovensko besedo z angleškim prevodom!</div>
+      <div class="matching-grid" id="matchingGrid">
+        ${shuffled.map((t, i) => `
+          <div class="match-tile" data-pair="${t.pairId}" data-lang="${t.lang}" data-idx="${i}">
+            <span class="match-tile-lang">${t.lang === 'slo' ? 'SLO' : 'EN'}</span>
+            <span class="match-tile-text">${escapeHtml(t.text)}</span>
+          </div>`).join('')}
+      </div>`;
+
+    document.querySelectorAll('.match-tile').forEach(tile =>
+      tile.addEventListener('click', () => this.handleClick(tile))
+    );
+  }
+
+  handleClick(tile) {
+    if (this.flipping) return;
+    const pairId = parseInt(tile.dataset.pair);
+    if (this.matched.has(pairId)) return;
+
+    // Deselect if clicking the already-selected tile
+    if (tile.classList.contains('selected')) {
+      tile.classList.remove('selected');
+      this.selected = null;
+      return;
+    }
+
+    this.startTimer();
+
+    if (!this.selected) {
+      tile.classList.add('selected');
+      this.selected = tile;
+      return;
+    }
+
+    // Second tile selected
+    const firstPair = parseInt(this.selected.dataset.pair);
+    const firstLang = this.selected.dataset.lang;
+    const secondLang = tile.dataset.lang;
+
+    if (firstPair === pairId && firstLang !== secondLang) {
+      // ✅ Match!
+      SoundFX.correct();
+      this.matched.add(pairId);
+      this.selected.classList.remove('selected');
+      this.selected.classList.add('matched');
+      tile.classList.add('matched');
+      this.selected = null;
+      const el = document.getElementById('matchPairs');
+      if (el) el.textContent = this.matched.size;
+      if (this.matched.size === this.totalPairs) this.gameComplete();
+    } else {
+      // ❌ No match
+      SoundFX.wrong();
+      this.attempts++;
+      this.mistakes++;
+      this.flipping = true;
+      tile.classList.add('selected');
+      const el = document.getElementById('matchMistakes');
+      if (el) el.textContent = this.mistakes;
+      const prev = this.selected;
+      setTimeout(() => {
+        prev.classList.remove('selected');
+        tile.classList.remove('selected');
+        this.selected = null;
+        this.flipping = false;
+      }, 750);
+    }
+  }
+
+  gameComplete() {
+    if (this.timerInterval) clearInterval(this.timerInterval);
+    const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+    const m = Math.floor(elapsed / 60), s = elapsed % 60;
+    const timeStr = `${m}:${s.toString().padStart(2,'0')}`;
+    SoundFX.rankUp();
+    checkAchievements({ matchingWin: true, matchingPerfect: this.mistakes === 0 });
+
+    setTimeout(() => {
+      const area = document.getElementById('matchingArea');
+      if (!area) return;
+      area.innerHTML = `
+        <div class="match-complete">
+          <div class="match-complete-icon">🧩</div>
+          <h2 class="match-complete-title">Zmaga! 🎉</h2>
+          ${this.mistakes === 0 ? '<div class="match-perfect">✨ Brez napake! Odlično!</div>' : ''}
+          <div class="match-complete-stats">
+            <div class="match-stat-item"><span>⏱️ Čas</span><strong>${timeStr}</strong></div>
+            <div class="match-stat-item"><span>❌ Napake</span><strong>${this.mistakes}</strong></div>
+            <div class="match-stat-item"><span>🎯 Pari</span><strong>${this.totalPairs}</strong></div>
+          </div>
+          <button class="btn" id="matchAgainBtn">🔄 Igraj znova</button>
+        </div>`;
+      document.getElementById('matchAgainBtn').addEventListener('click', () => reinitMatchingApp());
+    }, 800);
+  }
+}
+
+function reinitMatchingApp() {
+  if (window.matchingApp) { window.matchingApp.destroy(); window.matchingApp = null; }
+  if (MASTER_DATA.length === 0) {
+    const area = document.getElementById('matchingArea');
+    if (area) area.innerHTML = `<div class="quiz-empty">Najprej naloži nabor kartic 👆</div>`;
+    return;
+  }
+  const cards = applyFilters();
+  window.matchingApp = new MatchingApp(cards);
+}
+
 function switchMode(mode) {
   currentMode = mode;
-  const fcPanel    = document.getElementById('flashcardPanel');
-  const qzPanel    = document.getElementById('quizPanel');
-  const tmPanel    = document.getElementById('timedPanel');
-  const stPanel    = document.getElementById('statsPanel');
-  const scoreHUD   = document.getElementById('scoreHUD');
-  const sel        = document.getElementById('modeSelect');
+  const fcPanel  = document.getElementById('flashcardPanel');
+  const qzPanel  = document.getElementById('quizPanel');
+  const tmPanel  = document.getElementById('timedPanel');
+  const mxPanel  = document.getElementById('matchingPanel');
+  const stPanel  = document.getElementById('statsPanel');
+  const scoreHUD = document.getElementById('scoreHUD');
+  const sel      = document.getElementById('modeSelect');
   if (sel && sel.value !== mode) sel.value = mode;
 
-  if (window.app)      { window.app.destroy();      window.app      = null; }
-  if (window.quizApp)  { window.quizApp.destroy();   window.quizApp  = null; }
-  if (window.timedApp) { window.timedApp.destroy();  window.timedApp = null; }
+  if (window.app)         { window.app.destroy();         window.app         = null; }
+  if (window.quizApp)     { window.quizApp.destroy();     window.quizApp     = null; }
+  if (window.timedApp)    { window.timedApp.destroy();    window.timedApp    = null; }
+  if (window.matchingApp) { window.matchingApp.destroy(); window.matchingApp = null; }
 
   fcPanel.style.display  = 'none';
   qzPanel.style.display  = 'none';
   if (tmPanel) tmPanel.style.display = 'none';
+  if (mxPanel) mxPanel.style.display = 'none';
   if (stPanel) stPanel.style.display = 'none';
   scoreHUD.style.display = 'none';
 
@@ -1172,6 +1490,9 @@ function switchMode(mode) {
   } else if (mode === 'timed') {
     if (tmPanel) tmPanel.style.display = 'flex';
     reinitTimedApp();
+  } else if (mode === 'matching') {
+    if (mxPanel) mxPanel.style.display = 'flex';
+    reinitMatchingApp();
   } else if (mode === 'stats') {
     if (stPanel) stPanel.style.display = 'flex';
     renderStatsPanel();
@@ -1264,9 +1585,10 @@ function clearDomListeners() {
 }
 
 function reinitApp() {
-  if (currentMode === 'flashcard') reinitFlashcardApp();
-  else if (currentMode === 'quiz') reinitQuizApp();
+  if (currentMode === 'flashcard')  reinitFlashcardApp();
+  else if (currentMode === 'quiz')  reinitQuizApp();
   else if (currentMode === 'timed') reinitTimedApp();
+  else if (currentMode === 'matching') reinitMatchingApp();
 }
 
 ['chkWords','chkPhrases','chkSentences'].forEach(id => {
@@ -1279,9 +1601,10 @@ reloadBtn.addEventListener("click", async () => {
   const ds = currentDataset();
   if (!ds) return;
   localStorage.setItem(SELECT_KEY, ds.id);
-  if (window.app)      { window.app.destroy();      window.app      = null; }
-  if (window.quizApp)  { window.quizApp.destroy();   window.quizApp  = null; }
-  if (window.timedApp) { window.timedApp.destroy();  window.timedApp = null; }
+  if (window.app)         { window.app.destroy();         window.app         = null; }
+  if (window.quizApp)     { window.quizApp.destroy();     window.quizApp     = null; }
+  if (window.timedApp)    { window.timedApp.destroy();    window.timedApp    = null; }
+  if (window.matchingApp) { window.matchingApp.destroy(); window.matchingApp = null; }
   clearDomListeners();
   setLoadingUI(true);
   try {
@@ -1294,6 +1617,8 @@ reloadBtn.addEventListener("click", async () => {
       reinitQuizApp();
     } else if (currentMode === 'timed') {
       reinitTimedApp();
+    } else if (currentMode === 'matching') {
+      reinitMatchingApp();
     }
     // Toolbar collapse is now handled by the toggle button only
   } catch (err) {
@@ -1306,4 +1631,7 @@ reloadBtn.addEventListener("click", async () => {
 });
 
 updateScoreHUD(parseInt(localStorage.getItem(SCORE_KEY) || '0'), 0);
+markDailyActivity();
+renderStreakBadge();
+checkAchievements();
 loadAllUnitsPool().then(() => reloadBtn.click());
