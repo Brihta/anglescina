@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brihta-ANG</title>
-  <link rel="stylesheet" href="style.css?v=7.0">
+  <link rel="stylesheet" href="style.css?v=7.1">
 </head>
 <body>
   <div class="container">
@@ -38,7 +38,7 @@
           <div class="ctrl-group">
             <label class="ctrl-label" for="dataset">Nabor</label>
             <select id="dataset" class="select" title="Izberi nabor kartic"></select>
-            <button id="reloadBtn" class="reload-btn" title="Naloži">↻</button>
+            <button id="reloadBtn" class="reload-btn" title="Naloži" style="display:none">↻</button>
           </div>
 
           <!-- Mode -->
@@ -90,7 +90,7 @@
           <div id="cardContainer" class="card-container">
             <div class="card" id="flashcard">
               <div class="card-face card-front" id="cardFront">
-                <span class="card-text">Izberi nabor in klikni ↻</span>
+                <span class="card-text">Izberi nabor in klikni ↻ zgoraj</span>
                 <span class="flip-hint">klikni za obrat</span>
               </div>
               <div class="card-face card-back" id="cardBack">
@@ -151,23 +151,24 @@
     function collapseToolbar() {
       toolbar.classList.add('collapsed');
       toggleBtn.textContent = '⚙️';
+      toggleBtn.title = 'Nastavitve';
     }
     function expandToolbar() {
       toolbar.classList.remove('collapsed');
-      toggleBtn.textContent = '✕';
+      toggleBtn.textContent = '↻';
+      toggleBtn.title = 'Naloži in zapri';
     }
     function isCollapsed() { return toolbar.classList.contains('collapsed'); }
 
     toggleBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      isCollapsed() ? expandToolbar() : collapseToolbar();
-      // also close filter panel
       document.getElementById('filterPanel').classList.remove('open');
-    });
-
-    // Tap anywhere outside toolbar to collapse
-    document.addEventListener('click', function(e) {
-      if (!toolbar.contains(e.target) && !isCollapsed()) {
+      if (isCollapsed()) {
+        expandToolbar();
+      } else {
+        // "I'm done" — load the setup, then collapse
+        document.getElementById('reloadBtn').click();
+        updateSummary();
         collapseToolbar();
       }
     });
@@ -237,17 +238,15 @@
     document.getElementById('modeSelect').addEventListener('change', function() {
       switchMode(this.value);
       updateSummary();
-      setTimeout(collapseToolbar, 200);
     });
 
     /* ── Dataset change updates summary ── */
     document.getElementById('dataset').addEventListener('change', updateSummary);
     document.getElementById('subject').addEventListener('change', updateSummary);
 
-    /* ── Collapse after reload ── */
+    /* ── Summary update after reload (no auto-collapse) ── */
     document.getElementById('reloadBtn').addEventListener('click', function() {
       updateSummary();
-      setTimeout(collapseToolbar, 600);
     }, true); // capture so it fires before reloadBtn's own listener
 
     // Initial summary

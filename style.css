@@ -104,6 +104,7 @@ html { height: 100%; }
   transition: background 0.2s, transform 0.2s;
 }
 .toolbar-toggle-btn:hover { background: rgba(255,255,255,0.28); }
+.toolbar:not(.collapsed) .toolbar-toggle-btn:hover { transform: rotate(90deg); }
 .toolbar.collapsed .toolbar-toggle-btn { background: rgba(255,255,255,0.1); }
 
 
