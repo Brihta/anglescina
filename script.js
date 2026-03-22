@@ -15,6 +15,25 @@ const DATASETS = [
 const SELECT_KEY  = "anki_dataset_id";
 const SUBJECT_KEY = "anki_subject_id";
 const SCORE_KEY   = "anki_quiz_score";
+const UNIT_STATS_KEY = "anki_unit_stats";
+
+function getUnitStats() {
+  try { return JSON.parse(localStorage.getItem(UNIT_STATS_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function recordWordStat(slovenian, unitId, isCorrect) {
+  if (!slovenian || !unitId) return;
+  const stats = getUnitStats();
+  if (!stats[unitId]) stats[unitId] = { attempts: 0, correct: 0 };
+  stats[unitId].attempts++;
+  if (isCorrect) stats[unitId].correct++;
+  if (!stats._words) stats._words = {};
+  if (!stats._words[slovenian]) stats._words[slovenian] = { attempts: 0, correct: 0, unitId };
+  stats._words[slovenian].attempts++;
+  if (isCorrect) stats._words[slovenian].correct++;
+  localStorage.setItem(UNIT_STATS_KEY, JSON.stringify(stats));
+}
 let currentSubject = localStorage.getItem(SUBJECT_KEY) || "anglescina";
 let MASTER_DATA  = [];
 let ALL_UNITS_POOL = [];   // pool of ALL items from every unit, for quiz distractors
@@ -193,12 +212,17 @@ async function fetchRawData(dataset) {
     for (const url of dataset.combined) {
       const resp = await fetch(url + '?t=' + t);
       if (!resp.ok) throw new Error("Napaka pri prenosu " + url);
-      allData = allData.concat(await resp.json());
+      const unitId = url.replace(/\.json$/, '');
+      const items = await resp.json();
+      items.forEach(item => item._unitId = unitId);
+      allData = allData.concat(items);
     }
   } else {
     const resp = await fetch(dataset.url + '?t=' + t);
     if (!resp.ok) throw new Error("Napaka pri prenosu");
-    allData = await resp.json();
+    const items = await resp.json();
+    items.forEach(item => item._unitId = dataset.id);
+    allData = items;
   }
   return allData;
 }
@@ -230,7 +254,7 @@ function applyFilters() {
     const valSlo = item.question ?? item.slovenian ?? "";
     const valEng = item.answer   ?? item.english   ?? "";
     const isSloToEng = Math.random() < 0.5;
-    return { id: index, front: isSloToEng ? valSlo : valEng, back: isSloToEng ? valEng : valSlo, english: valEng, isSloToEng };
+    return { id: index, front: isSloToEng ? valSlo : valEng, back: isSloToEng ? valEng : valSlo, english: valEng, slovenian: valSlo, unitId: item._unitId || 'unknown', isSloToEng };
   });
   return shuffle(finalCards);
 }
@@ -464,6 +488,8 @@ class QuizApp {
     const correct  = btn.dataset.correct;
     const isCorrect = selected === correct;
     const mult = getMultiplier(this.streak);
+    const card = this.cards[this.index];
+    recordWordStat(card.slovenian, card.unitId, isCorrect);
 
     document.querySelectorAll('.quiz-option').forEach(b => {
       b.disabled = true;
@@ -863,6 +889,8 @@ class TimedApp {
     const correct   = btn.dataset.correct;
     const isCorrect = selected === correct;
     const mult      = getMultiplier(this.streak);
+    const card = this.cards[this.index % this.cards.length];
+    recordWordStat(card.slovenian, card.unitId, isCorrect);
 
     // Start the countdown on the very first answer
     if (!this.timerStarted) {
@@ -1033,13 +1061,93 @@ class TimedApp {
 }
 
 
+// ── Stats Panel ───────────────────────────────────────────────────────────────
+function renderStatsPanel() {
+  const area = document.getElementById('statsArea');
+  if (!area) return;
+  const stats = getUnitStats();
+
+  const unitNames = {};
+  DATASETS.forEach(d => { unitNames[d.id] = d.name; });
+  // Also map url-derived keys like "unit1" from combined loading
+  DATASETS.forEach(d => {
+    if (d.url) unitNames[d.url.replace(/\.json$/, '')] = d.name;
+  });
+
+  const unitKeys = Object.keys(stats).filter(k => k !== '_words');
+
+  if (unitKeys.length === 0) {
+    area.innerHTML = `<div class="stats-empty">Še ni podatkov o napredku.<br><small>Igraj Kviz ali Tekmo s časom, da se napredek zabeleži.</small> 🎯</div>`;
+    return;
+  }
+
+  const unitRowsHTML = unitKeys.map(unitId => {
+    const u = stats[unitId];
+    const acc = u.attempts > 0 ? Math.round((u.correct / u.attempts) * 100) : 0;
+    const color = acc >= 75 ? '#28a745' : acc >= 50 ? '#e0a800' : '#dc3545';
+    const glow  = acc >= 75 ? '#4cdb7e' : acc >= 50 ? '#ffe066' : '#ff6b6b';
+    const name  = unitNames[unitId] || unitId;
+    return `
+      <div class="stats-unit-row">
+        <div class="stats-unit-header">
+          <span class="stats-unit-name">${escapeHtml(name)}</span>
+          <span class="stats-unit-acc" style="color:${glow}">${acc}%</span>
+        </div>
+        <div class="stats-bar-wrap">
+          <div class="stats-bar-fill" style="width:${acc}%;background:linear-gradient(90deg,${color},${glow})"></div>
+        </div>
+        <div class="stats-unit-meta">${u.correct} pravilno / ${u.attempts} skupaj</div>
+      </div>`;
+  }).join('');
+
+  const words = stats._words || {};
+  const weakWords = Object.entries(words)
+    .filter(([, d]) => d.attempts >= 2)
+    .map(([w, d]) => ({ word: w, ...d, acc: Math.round((d.correct / d.attempts) * 100) }))
+    .sort((a, b) => a.acc - b.acc)
+    .slice(0, 15);
+
+  let weakHTML = '';
+  if (weakWords.length > 0) {
+    weakHTML = `
+      <div class="stats-section-title">Besede za vadbo 📌</div>
+      <div class="stats-weak-list">
+        ${weakWords.map(w => {
+          const c = w.acc >= 75 ? '#4cdb7e' : w.acc >= 50 ? '#ffe066' : '#ff6b6b';
+          const unitLabel = unitNames[w.unitId] || w.unitId;
+          return `<div class="stats-weak-item">
+            <span class="stats-weak-word">${escapeHtml(w.word)}</span>
+            <span class="stats-weak-unit">${escapeHtml(unitLabel)}</span>
+            <span class="stats-weak-acc" style="color:${c}">${w.acc}%</span>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  area.innerHTML = `
+    <div class="stats-title">📊 Tvoj napredek</div>
+    <div class="stats-section-title">Točnost po enotah</div>
+    <div class="stats-units">${unitRowsHTML}</div>
+    ${weakHTML}
+    <button class="stats-reset-btn" id="statsResetBtn">↺ Ponastavi statistiko</button>
+  `;
+
+  document.getElementById('statsResetBtn').addEventListener('click', () => {
+    if (confirm('Res želiš ponastaviti vso statistiko napredka?')) {
+      localStorage.removeItem(UNIT_STATS_KEY);
+      renderStatsPanel();
+    }
+  });
+}
+
 function switchMode(mode) {
   currentMode = mode;
-  const fcPanel  = document.getElementById('flashcardPanel');
-  const qzPanel  = document.getElementById('quizPanel');
-  const tmPanel  = document.getElementById('timedPanel');
-  const scoreHUD = document.getElementById('scoreHUD');
-  const sel      = document.getElementById('modeSelect');
+  const fcPanel    = document.getElementById('flashcardPanel');
+  const qzPanel    = document.getElementById('quizPanel');
+  const tmPanel    = document.getElementById('timedPanel');
+  const stPanel    = document.getElementById('statsPanel');
+  const scoreHUD   = document.getElementById('scoreHUD');
+  const sel        = document.getElementById('modeSelect');
   if (sel && sel.value !== mode) sel.value = mode;
 
   if (window.app)      { window.app.destroy();      window.app      = null; }
@@ -1049,6 +1157,7 @@ function switchMode(mode) {
   fcPanel.style.display  = 'none';
   qzPanel.style.display  = 'none';
   if (tmPanel) tmPanel.style.display = 'none';
+  if (stPanel) stPanel.style.display = 'none';
   scoreHUD.style.display = 'none';
 
   if (mode === 'flashcard') {
@@ -1063,6 +1172,9 @@ function switchMode(mode) {
   } else if (mode === 'timed') {
     if (tmPanel) tmPanel.style.display = 'flex';
     reinitTimedApp();
+  } else if (mode === 'stats') {
+    if (stPanel) stPanel.style.display = 'flex';
+    renderStatsPanel();
   }
 }
 

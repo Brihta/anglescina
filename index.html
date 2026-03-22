@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brihta-ANG</title>
-  <link rel="stylesheet" href="style.css?v=6.0">
+  <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 <body>
   <div class="container">
@@ -48,6 +48,7 @@
               <option value="flashcard">🃏 Kartice</option>
               <option value="quiz">🎯 Kviz</option>
               <option value="timed">⏱️ Tekma s časom</option>
+              <option value="stats">📊 Napredek</option>
             </select>
           </div>
 
@@ -130,11 +131,16 @@
           </div>
         </div>
 
+        <!-- STATS PANEL -->
+        <div id="statsPanel" class="stats-panel" style="display:none">
+          <div id="statsArea" class="stats-area"></div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <script src="script.js?v=11"></script>
+  <script src="script.js?v=12"></script>
 
   <script>
     /* ── Toolbar collapse ── */
