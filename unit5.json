@@ -1,0 +1,810 @@
+[
+  {
+    "question": "Pekarna",
+    "answer": "Baker's"
+  },
+  {
+    "question": "Banka",
+    "answer": "Bank"
+  },
+  {
+    "question": "Knjigarna",
+    "answer": "Bookshop"
+  },
+  {
+    "question": "Grad",
+    "answer": "Castle"
+  },
+  {
+    "question": "Cerkev",
+    "answer": "Church"
+  },
+  {
+    "question": "Kino",
+    "answer": "Cinema"
+  },
+  {
+    "question": "Hotel",
+    "answer": "Hotel"
+  },
+  {
+    "question": "Bolnišnica",
+    "answer": "Hospital"
+  },
+  {
+    "question": "Knjižnica",
+    "answer": "Library"
+  },
+  {
+    "question": "Muzej",
+    "answer": "Museum"
+  },
+  {
+    "question": "Pisarna",
+    "answer": "Office"
+  },
+  {
+    "question": "Park",
+    "answer": "Park"
+  },
+  {
+    "question": "Pošta",
+    "answer": "Post office"
+  },
+  {
+    "question": "Šola",
+    "answer": "School"
+  },
+  {
+    "question": "Trgovina",
+    "answer": "Shop"
+  },
+  {
+    "question": "Supermarket",
+    "answer": "Supermarket"
+  },
+  {
+    "question": "Bazen",
+    "answer": "Swimming pool"
+  },
+  {
+    "question": "Živalski vrt",
+    "answer": "Zoo"
+  },
+  {
+    "question": "Pek",
+    "answer": "Baker"
+  },
+  {
+    "question": "Hišnik",
+    "answer": "Caretaker"
+  },
+  {
+    "question": "Čistilec / Čistilka",
+    "answer": "Cleaner"
+  },
+  {
+    "question": "Kuhar / Kuharica",
+    "answer": "Cook"
+  },
+  {
+    "question": "Zobozdravnik",
+    "answer": "Dentist"
+  },
+  {
+    "question": "Zdravnik",
+    "answer": "Doctor"
+  },
+  {
+    "question": "Gasilec",
+    "answer": "Firefighter"
+  },
+  {
+    "question": "Vrtnar",
+    "answer": "Gardener"
+  },
+  {
+    "question": "Frizer / Frizerka",
+    "answer": "Hairdresser"
+  },
+  {
+    "question": "Knjižničar / Knjižničarka",
+    "answer": "Librarian"
+  },
+  {
+    "question": "Policist",
+    "answer": "Police officer"
+  },
+  {
+    "question": "Tajnik / Tajnica",
+    "answer": "Secretary"
+  },
+  {
+    "question": "Učitelj / Učiteljica",
+    "answer": "Teacher"
+  },
+  {
+    "question": "Veterinar / Veterinarka",
+    "answer": "Veterinarian / Vet"
+  },
+  {
+    "question": "Natakar / Natakarica",
+    "answer": "Waiter"
+  },
+  {
+    "question": "Lep",
+    "answer": "Beautiful"
+  },
+  {
+    "question": "Velik",
+    "answer": "Big"
+  },
+  {
+    "question": "Težak",
+    "answer": "Difficult"
+  },
+  {
+    "question": "Ogromen",
+    "answer": "Enormous"
+  },
+  {
+    "question": "Fantastičen",
+    "answer": "Fantastic"
+  },
+  {
+    "question": "Prestrašen",
+    "answer": "Frightened"
+  },
+  {
+    "question": "Čudovit",
+    "answer": "Lovely"
+  },
+  {
+    "question": "Nov",
+    "answer": "New"
+  },
+  {
+    "question": "Prijeten",
+    "answer": "Nice"
+  },
+  {
+    "question": "Star",
+    "answer": "Old"
+  },
+  {
+    "question": "Ubog",
+    "answer": "Poor"
+  },
+  {
+    "question": "Majhen",
+    "answer": "Small"
+  },
+  {
+    "question": "Poseben",
+    "answer": "Special"
+  },
+  {
+    "question": "Neudoben",
+    "answer": "Uncomfortable"
+  },
+  {
+    "question": "Nenavaden",
+    "answer": "Unusual"
+  },
+  {
+    "question": "Vprašati",
+    "answer": "To ask"
+  },
+  {
+    "question": "Izposoditi",
+    "answer": "To borrow"
+  },
+  {
+    "question": "Kupiti",
+    "answer": "To buy"
+  },
+  {
+    "question": "Preveriti",
+    "answer": "To check"
+  },
+  {
+    "question": "Izbrati",
+    "answer": "To choose"
+  },
+  {
+    "question": "Čistiti",
+    "answer": "To clean"
+  },
+  {
+    "question": "Hraniti",
+    "answer": "To feed"
+  },
+  {
+    "question": "Pomagati",
+    "answer": "To help"
+  },
+  {
+    "question": "Učiti se",
+    "answer": "To learn"
+  },
+  {
+    "question": "Zasaditi",
+    "answer": "To plant"
+  },
+  {
+    "question": "Popraviti",
+    "answer": "To repair"
+  },
+  {
+    "question": "Videti",
+    "answer": "To see"
+  },
+  {
+    "question": "Prodati",
+    "answer": "To sell"
+  },
+  {
+    "question": "Poslati",
+    "answer": "To send"
+  },
+  {
+    "question": "Spati",
+    "answer": "To sleep"
+  },
+  {
+    "question": "Učiti",
+    "answer": "To teach"
+  },
+  {
+    "question": "Delati",
+    "answer": "To work"
+  },
+  {
+    "question": "Sever",
+    "answer": "The North"
+  },
+  {
+    "question": "Jug",
+    "answer": "The South"
+  },
+  {
+    "question": "Vzhod",
+    "answer": "The East"
+  },
+  {
+    "question": "Zahod",
+    "answer": "The West"
+  },
+  {
+    "question": "Med",
+    "answer": "Between"
+  },
+  {
+    "question": "Levo",
+    "answer": "Left"
+  },
+  {
+    "question": "Pod",
+    "answer": "Under"
+  },
+  {
+    "question": "Zadaj",
+    "answer": "Behind"
+  },
+  {
+    "question": "Pomoč",
+    "answer": "Help"
+  },
+  {
+    "question": "Sladoled",
+    "answer": "Ice cream"
+  },
+  {
+    "question": "Okus",
+    "answer": "Flavour"
+  },
+  {
+    "question": "Vanilja",
+    "answer": "Vanilla"
+  },
+  {
+    "question": "Čokolada",
+    "answer": "Chocolate"
+  },
+  {
+    "question": "Jagoda",
+    "answer": "Strawberry"
+  },
+  {
+    "question": "Hvala",
+    "answer": "Thank you"
+  },
+  {
+    "question": "Mesto",
+    "answer": "Town"
+  },
+  {
+    "question": "Vas",
+    "answer": "Village"
+  },
+  {
+    "question": "Zgradba",
+    "answer": "Building"
+  },
+  {
+    "question": "Drevo",
+    "answer": "Tree"
+  },
+  {
+    "question": "Mačka",
+    "answer": "Cat"
+  },
+  {
+    "question": "Zemljevid",
+    "answer": "Map"
+  },
+  {
+    "question": "Miška",
+    "answer": "Mouse"
+  },
+  {
+    "question": "Maslo",
+    "answer": "Butter"
+  },
+  {
+    "question": "Past",
+    "answer": "Trap"
+  },
+  {
+    "question": "Polica",
+    "answer": "Shelf"
+  },
+  {
+    "question": "Luknja",
+    "answer": "Hole"
+  },
+  {
+    "question": "Zrno",
+    "answer": "Grain"
+  },
+  {
+    "question": "Dežela",
+    "answer": "Country"
+  },
+  {
+    "question": "Vogal",
+    "answer": "Corner"
+  },
+  {
+    "question": "Sladkor",
+    "answer": "Sugar"
+  },
+  {
+    "question": "Mir",
+    "answer": "Peace"
+  },
+  {
+    "question": "Smrt",
+    "answer": "Death"
+  },
+  {
+    "question": "Gasilska postaja",
+    "answer": "Fire station"
+  },
+  {
+    "question": "Glasbena trgovina",
+    "answer": "Music shop"
+  },
+  {
+    "question": "Policijska postaja",
+    "answer": "Police station"
+  },
+  {
+    "question": "Trgovina z oblačili",
+    "answer": "Clothes shop"
+  },
+  {
+    "question": "Trgovina z živalmi",
+    "answer": "Pet shop"
+  },
+  {
+    "question": "Pisarniški pomočnik",
+    "answer": "Office assistant"
+  },
+  {
+    "question": "Prodajalec / Prodajalka",
+    "answer": "Shop assistant"
+  },
+  {
+    "question": "Oskrbnik živalskega vrta",
+    "answer": "Zoo keeper"
+  },
+  {
+    "question": "Striči lase",
+    "answer": "To cut hair"
+  },
+  {
+    "question": "Voziti avto",
+    "answer": "To drive a car"
+  },
+  {
+    "question": "Iti plavat / na sprehod",
+    "answer": "To go for a swim / walk"
+  },
+  {
+    "question": "Tipkati pisma",
+    "answer": "To type letters"
+  },
+  {
+    "question": "Skrbeti za živali",
+    "answer": "To take care of animals"
+  },
+  {
+    "question": "Vzeti stvari",
+    "answer": "To take things"
+  },
+  {
+    "question": "Čistiti učilnice",
+    "answer": "To clean classrooms"
+  },
+  {
+    "question": "Čistiti kletke",
+    "answer": "To clean the cages"
+  },
+  {
+    "question": "Pregledovati zobe",
+    "answer": "To check teeth"
+  },
+  {
+    "question": "Kuhati hrano",
+    "answer": "To cook food"
+  },
+  {
+    "question": "Pomagati ljudem",
+    "answer": "To help people"
+  },
+  {
+    "question": "Učiti otroke",
+    "answer": "To teach children"
+  },
+  {
+    "question": "Popravljati stvari",
+    "answer": "To repair things"
+  },
+  {
+    "question": "Prodajati stvari",
+    "answer": "To sell things"
+  },
+  {
+    "question": "Naročati hrano",
+    "answer": "To order food"
+  },
+  {
+    "question": "Reševati živali",
+    "answer": "To rescue animals"
+  },
+  {
+    "question": "V mestu",
+    "answer": "In the town"
+  },
+  {
+    "question": "Na vasi",
+    "answer": "In the village"
+  },
+  {
+    "question": "Na severu",
+    "answer": "In the north"
+  },
+  {
+    "question": "Na jugu",
+    "answer": "In the south"
+  },
+  {
+    "question": "Na vzhodu",
+    "answer": "In the east"
+  },
+  {
+    "question": "Na zahodu",
+    "answer": "In the west"
+  },
+  {
+    "question": "Na jugu Slovenije",
+    "answer": "In the south of Slovenia"
+  },
+  {
+    "question": "V mestu so muzeji.",
+    "answer": "There are museums in the town."
+  },
+  {
+    "question": "Na vasi ni muzejev.",
+    "answer": "There aren't any museums in the village."
+  },
+  {
+    "question": "V mestu je bolnišnica.",
+    "answer": "There's a hospital in the town."
+  },
+  {
+    "question": "Na vasi ni bolnišnice.",
+    "answer": "There isn't any hospital in the village."
+  },
+  {
+    "question": "V mestu je bazen.",
+    "answer": "There's a swimming pool in the town."
+  },
+  {
+    "question": "Na vasi ni bazena.",
+    "answer": "There isn't a swimming pool in the village."
+  },
+  {
+    "question": "V mestu je knjižnica.",
+    "answer": "There's a library in the town."
+  },
+  {
+    "question": "Na vasi ni knjižnice.",
+    "answer": "There isn't a library in the village."
+  },
+  {
+    "question": "V mestu je park.",
+    "answer": "There's a park in the town."
+  },
+  {
+    "question": "Na vasi ni parka.",
+    "answer": "There isn't a park in the village."
+  },
+  {
+    "question": "V mestu je reka.",
+    "answer": "There's a river in the town."
+  },
+  {
+    "question": "Na vasi ni reke.",
+    "answer": "There isn't a river in the village."
+  },
+  {
+    "question": "Na vasi je pek.",
+    "answer": "There's a baker in the village."
+  },
+  {
+    "question": "V mestu ni peka.",
+    "answer": "There isn't a baker in the town."
+  },
+  {
+    "question": "Na vasi je veterinar.",
+    "answer": "There's a veterinarian in the village."
+  },
+  {
+    "question": "V mestu ni veterinarja.",
+    "answer": "There isn't a veterinarian in the town."
+  },
+  {
+    "question": "Na vasi je supermarket.",
+    "answer": "There's a supermarket in the village."
+  },
+  {
+    "question": "V mestu ni supermarketa.",
+    "answer": "There isn't a supermarket in the town."
+  },
+  {
+    "question": "Frizer striže lase. Frizerji strižejo lase.",
+    "answer": "A hairdresser trims hair. Hairdressers trim hair."
+  },
+  {
+    "question": "Čistilec čisti učilnice. Čistilci čistijo učilnice.",
+    "answer": "A cleaner cleans classrooms. Cleaners clean classrooms."
+  },
+  {
+    "question": "Oskrbnik živalskega vrta čisti kletke. Oskrbniki čistijo kletke.",
+    "answer": "A zookeeper cleans the cages. Zookeepers clean the cages."
+  },
+  {
+    "question": "Zobozdravnik pregleduje zobe. Zobozdravniki pregledujejo zobe.",
+    "answer": "A dentist checks the teeth. Dentists check the teeth."
+  },
+  {
+    "question": "Usedem se na klop.",
+    "answer": "I can sit on a bench."
+  },
+  {
+    "question": "Ne morem plezati po drevesih.",
+    "answer": "I can't climb the trees."
+  },
+  {
+    "question": "Piknikujem.",
+    "answer": "I can have a picnic."
+  },
+  {
+    "question": "Ne morem gledati televizije.",
+    "answer": "I can't watch TV."
+  },
+  {
+    "question": "Sprehodam se s psom.",
+    "answer": "I can take a dog for a walk."
+  },
+  {
+    "question": "Ne morem klepetati na internetu.",
+    "answer": "I can't chat on the Internet."
+  },
+  {
+    "question": "Igramo se žogo.",
+    "answer": "I can play ball games."
+  },
+  {
+    "question": "Ne morem iti na ribolov.",
+    "answer": "I can't go fishing."
+  },
+  {
+    "question": "Ali je v tvojem mestu kakšen kino?",
+    "answer": "Are there any cinemas in your town?"
+  },
+  {
+    "question": "Ja, sta dva.",
+    "answer": "Yes, there are two."
+  },
+  {
+    "question": "Kaj delaš?",
+    "answer": "What do you do?"
+  },
+  {
+    "question": "Sem frizerka. Strižem lase.",
+    "answer": "I'm a hairdresser. I cut hair."
+  },
+  {
+    "question": "Prosim, rada bi malo sladoleda.",
+    "answer": "I'd like some ice cream, please."
+  },
+  {
+    "question": "Katerega okusa?",
+    "answer": "What flavour?"
+  },
+  {
+    "question": "Izvoli.",
+    "answer": "Here you are."
+  },
+  {
+    "question": "Koliko si star/stara?",
+    "answer": "How old are you?"
+  },
+  {
+    "question": "Star/stara sem deset let.",
+    "answer": "I'm ten."
+  },
+  {
+    "question": "Kje je Koper?",
+    "answer": "Where's Koper?"
+  },
+  {
+    "question": "Na jugu Slovenije.",
+    "answer": "In the South of Slovenia."
+  },
+  {
+    "question": "Ali je v tvojem mestu gasilska postaja?",
+    "answer": "Is there a fire station in your town?"
+  },
+  {
+    "question": "Ne, ni je.",
+    "answer": "No, there isn't."
+  },
+  {
+    "question": "Kam bi šel/šla?",
+    "answer": "Where would you like to go?"
+  },
+  {
+    "question": "V London, seveda.",
+    "answer": "To London, of course."
+  },
+  {
+    "question": "Vau! Kaj je ta lepa zgradba?",
+    "answer": "Wow! What's this beautiful building?"
+  },
+  {
+    "question": "To je mestni muzej.",
+    "answer": "It's the city museum."
+  },
+  {
+    "question": "Kje delaš?",
+    "answer": "Where do you work?"
+  },
+  {
+    "question": "V trgovini. V trgovini z oblačili.",
+    "answer": "In a shop. A clothes shop."
+  },
+  {
+    "question": "Ali si vedno zamudnik v šoli?",
+    "answer": "Are you always late for school?"
+  },
+  {
+    "question": "Ne, nisem. Vedno sem točen/točna.",
+    "answer": "No, I'm not. I'm always on time."
+  },
+  {
+    "question": "V knjigarni.",
+    "answer": "In a bookshop."
+  },
+  {
+    "question": "Moj oče.",
+    "answer": "My dad does."
+  },
+  {
+    "question": "V park.",
+    "answer": "To the park."
+  },
+  {
+    "question": "Knjigo in prigrizek.",
+    "answer": "A book and a snack."
+  },
+  {
+    "question": "Dolgo spati.",
+    "answer": "Sleep long."
+  },
+  {
+    "question": "Jaz.",
+    "answer": "I do."
+  },
+  {
+    "question": "Sir in salama.",
+    "answer": "Cheese and salami."
+  },
+  {
+    "question": "Na morje.",
+    "answer": "To the seaside."
+  },
+  {
+    "question": "V zahodni Sloveniji.",
+    "answer": "In the west of Slovenia."
+  },
+  {
+    "question": "Mel ima rada plavanje. Gre na morje.",
+    "answer": "Mel loves swimming. She is going to the seaside."
+  },
+  {
+    "question": "S seboj vzame kopalke, kratke hlače, majico, klobuk in sončna očala.",
+    "answer": "She takes a swimsuit, shorts, a T-shirt, a hat and sunglasses with her."
+  },
+  {
+    "question": "Cindy ima rada kampiranje. Gre v taborišče blizu gozda.",
+    "answer": "Cindy loves camping. She is going to a camp near the woods."
+  },
+  {
+    "question": "S seboj vzame hlače, pulover, nogavice, superge in majico.",
+    "answer": "She takes trousers, a pullover, socks, trainers and a T-shirt with her."
+  },
+  {
+    "question": "Luke ima rad obiskovanje velikih mest. Gre obiskat eno.",
+    "answer": "Luke loves going to big cities. He is going to visit one."
+  },
+  {
+    "question": "S seboj vzame par džins hlač, kratke hlače, nogavice, čevlje, klobuk in dežnik.",
+    "answer": "He takes a pair of jeans, shorts, socks, shoes, a hat and an umbrella with him."
+  },
+  {
+    "question": "Ljubo doma, kdor ga ima.",
+    "answer": "There's no place like home."
+  },
+  {
+    "question": "Mali prijatelji so veliki prijatelji.",
+    "answer": "Little friends are great friends."
+  },
+  {
+    "question": "Učitelj: Zakaj si zamudil? Ramu: Zaradi znaka. Učitelj: Kakšnega znaka? Ramu: Tistega, ki piše: 'Šola naprej, vozi počasi.'",
+    "answer": "Teacher: Why are you late? Ramu: Because of the sign. Teacher: What sign? Ramu: The one that says, 'School Ahead, Go Slow.'"
+  },
+  {
+    "question": "Učitelj: Kdor odgovori na moje naslednje vprašanje, gre domov. En deček vrže torbo skozi okno. Učitelj: Kdo je to vrgel?! Deček: Jaz! Grem domov.",
+    "answer": "Teacher: Whoever answers my next question can go home. One boy throws his bag out of the window. Teacher: Who just threw that?! Boy: Me! I'm going home now."
+  },
+  {
+    "question": "Učitelj: Fred, zgodba, ki si jo oddal z naslovom 'Naš pes', je točno taka kot tvoja bratova. Fred: Seveda. To je isti pes.",
+    "answer": "Teacher: Fred, the story you handed in called 'Our dog' is exactly like your brother's. Fred: Of course. It's the same dog."
+  },
+  {
+    "question": "Draga babica, sem v New Yorku. Vse je tu super in toliko je zanimivih krajev in zgradb.",
+    "answer": "Dear grandma, I'm in New York. Everything is so cool here and there are so many interesting places and buildings."
+  },
+  {
+    "question": "Načrtujem obiskati muzeje in iti na koncert. Vreme je lepo in uživam v vsakem trenutku v New Yorku.",
+    "answer": "I plan to visit some museums and go to a concert. The weather is fine and I enjoy every moment in New York."
+  },
+  {
+    "question": "Rada bi, da bi bila tu z mano.",
+    "answer": "Wish you were here with me."
+  }
+]
